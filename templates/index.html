@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}你的便签{% endblock %}
+
+{% block page %}
+    <h1>你的便签</h1>
+    <hr>
+    <script>
+        del_notes = function(id){
+            layer.confirm('确定要一键删除吗？',
+                            {icon: 3, title: '系统提示'},
+                            function (index){
+                                $.ajax({
+                                    type: "DELETE",
+                                    async: false,
+                                    url: "/notes",
+                                    data: {
+                                        id: id,
+                                    },
+                                });
+                                window.location.reload();
+                            },
+            );
+        };
+        update_notes = function(id){
+            window.location.href = "/update-notes?id="+ id;
+        }
+        timing = function(id){
+            layer.prompt({
+                title: '请输入时间（1-60分钟后）：',
+                skin : "layui-layer-molv",
+                },
+                function(value, index){
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ url_for("add_timing") }}',
+                        data: {
+                            "timing-mins": value,
+                            "notes_id": id,
+                        },
+                        async: false,
+                        success: function(){
+                            layer.open({
+                                icon: 1,
+                                title: "提示",
+                                content: "设置成功！",
+                            });
+                        },
+                        error: function(){
+                            layer.open({
+                                icon: 2,
+                                title: "错误",
+                                content: "输入格式或范围出现问题，请重新输入！",
+                            })
+                        }
+                    });
+                    layer.close(index);
+                })
+        }
+    </script>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>内容</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for note in notes %}
+            <tr>
+                <td>{{ note[0] }}</td>
+                <td>{{ note[1] }}</td>
+                <td>
+                    <button onclick="del_notes('{{ note[0] }}')" class="btn btn-danger">删除</button>
+                    <button onclick="update_notes('{{ note[0] }}')" class="btn btn-primary">修改</button>
+                    <button onclick="timing('{{ note[0] }}')" class="btn btn-warning">定时提醒</button>
+                </td>
+            </tr>
+            {% else %}
+                <tr>
+                    <td>无</td>
+                    <td>无</td>
+                    <td>无</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

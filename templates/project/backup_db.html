@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}备份数据库{% endblock %}
+
+{% block page %}
+    <h1>备份数据库</h1>
+    <hr>
+    <script>
+        backup_db = function(){
+            layer.confirm('确定要备份吗？',
+                          {icon: 3, title: '系统提示'},
+                            function(index){
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '{{ url_for("backup_db") }}',
+                                    async: false,
+                                    success: function(data){
+                                        window.location.reload();
+                                    }
+                                });
+                            },
+            )
+        }
+        delete_backup_db = function(filename){
+            layer.confirm('确定要一键删除吗？',
+                        {icon: 3, title: '系统提示'},
+                        function(index){
+                            $.ajax({
+                                type: 'DELETE',
+                                url: '{{ url_for("backup_db") }}',
+                                async: false,
+                                data: {
+                                    db_file: filename
+                                },
+                                success: function(){
+                                    window.location.reload();
+                                },
+                            });
+                        }
+                    )
+    }
+    </script>
+    <button class="btn btn-primary" onclick="backup_db();">备份数据库</button>
+    <hr>
+    <p>备份文件列表：</p>
+    <ul class="list-group">
+        {% for db in db_files %}
+            <li class="list-group-item">
+                <h5>
+                    {{ db }} | 
+                    <button class="btn btn-danger" onclick="delete_backup_db('{{db}}')">删除该备份</button>
+                </h5>
+            </li>
+        {% else %}
+            <li class="list-group-item">无</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}添加便签{% endblock %}
+
+{% block page %}
+    <h1>添加便签</h1>
+    <form method="POST" action="{{ url_for('notes_operate') }}">
+        <h5>内容：</h5>
+        <textarea name="content" class="form-control" rows=10></textarea>
+        <hr>
+        <button type="submit" class="btn btn-primary">提交</button>
+        <button onclick="window.location.href='/';return false;" class="btn btn-danger">取消</button>
+    </form>
+{% endblock %}
