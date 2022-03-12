@@ -5,7 +5,7 @@
 {% block page %}
     <h1>修改便签</h1>
     <form>
-        <h5>ID：{{ notes_id}}</h5>
+        <h5>ID：{{ note.id }}</h5>
         <h5>内容：</h5>
         <script>
             submit_update = function(){
@@ -14,7 +14,7 @@
                     url: '{{ url_for("notes_operate") }}',
                     async: false,
                     data: {
-                        id: "{{ notes_id }}",
+                        id: "{{ note.id }}",
                         content: $("#content").val()
                     },
                     success: function(data){
@@ -23,7 +23,7 @@
                 });
             }
         </script>
-        <textarea name="content" class="form-control" rows=10 id="content">{{ notes_content }}</textarea>
+        <textarea name="content" class="form-control" rows=10 id="content">{{ note.content }}</textarea>
         <hr>
         <button onclick="submit_update();return false;" class="btn btn-primary">提交</button>
         <button onclick="window.location.href='/';return false;" class="btn btn-danger">取消</button>

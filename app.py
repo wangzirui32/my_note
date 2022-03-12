@@ -47,6 +47,7 @@ def notes_operate():
     elif request.method == "DELETE":
         notes_id = request.form.get("id", type=int)
         db.session.delete(Note.query.get(notes_id))
+        db.session.commit()
 
         return {"success": True}
     
