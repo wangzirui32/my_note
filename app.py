@@ -97,7 +97,7 @@ def project():
 def backup_db():
     if request.method == "DELETE":
         db_filename = request.form.get("db_file", type=str)
-        os.delete("backup/database/{}".format(db_filename))
+        os.remove("backup/database/{}".format(db_filename))
         return jsonify({"success": True})
     backup_id = int(time.time())
     shutil.copyfile("notes.db", "backup/database/{}.db".format(backup_id))
