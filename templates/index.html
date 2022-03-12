@@ -33,7 +33,7 @@
                 function(value, index){
                     $.ajax({
                         type: 'POST',
-                        url: '{{ url_for("add_timing") }}',
+                        url: '{{ url_for("timings") }}',
                         data: {
                             "timing-mins": value,
                             "notes_id": id,
@@ -69,12 +69,12 @@
         <tbody>
             {% for note in notes %}
             <tr>
-                <td>{{ note[0] }}</td>
-                <td>{{ note[1] }}</td>
+                <td>{{ note.id }}</td>
+                <td>{{ note.content }}</td>
                 <td>
-                    <button onclick="del_notes('{{ note[0] }}')" class="btn btn-danger">删除</button>
-                    <button onclick="update_notes('{{ note[0] }}')" class="btn btn-primary">修改</button>
-                    <button onclick="timing('{{ note[0] }}')" class="btn btn-warning">定时提醒</button>
+                    <button onclick="del_notes('{{ note.id }}')" class="btn btn-danger">删除</button>
+                    <button onclick="update_notes('{{ note.id }}')" class="btn btn-primary">修改</button>
+                    <button onclick="timing('{{ note.id }}')" class="btn btn-warning">定时提醒</button>
                 </td>
             </tr>
             {% else %}

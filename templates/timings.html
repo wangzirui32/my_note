@@ -25,18 +25,18 @@
             <tr>
                 <th>编号</th>
                 <th>触发时间</th>
-                <th>便签ID</th>
+                <th>便签内容</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody>
             {% for timing in timings %}
             <tr>
-                <td>{{ timing[0] }}</td>
-                <td>{{ strftime(timing[1]) }}</td>
-                <td><a href="/update-notes?id={{ timing[2] }}">{{ timing[2] }}</a></td>
+                <td>{{ timing.id }}</td>
+                <td>{{ strftime(timing.timestamp) }}</td>
+                <td><a href="/update-notes?id={{ timing.notes_id }}">{{ timing.notes.content }}</a></td>
                 <td>
-                    <button class="btn btn-danger" onclick="del_timing('{{ timing[0] }}')">删除</button>
+                    <button class="btn btn-danger" onclick="del_timing('{{ timing.id }}')">删除</button>
                 </td>
             </tr>
             {% else %}
