@@ -1,4 +1,3 @@
-from multiprocessing.spawn import import_main_path
 from db import db
 from models import Timing
 from flask import Flask
